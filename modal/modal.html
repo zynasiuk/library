@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/modal.css">
+    <title>Modal</title>
+</head>
+<body>
+
+
+<!-- body overlay -->
+<div class="body-blackout"></div>
+
+<!-- Triggers -->
+<button
+  type="button"
+  class="modal__trigger"
+  data-popup-trigger="one">
+  Popup Trigger One
+</button>
+
+<button
+  type="button"
+  class="modal__trigger"
+  data-popup-trigger="two">
+  Popup Trigger Two
+</button>
+
+<!-- Modals -->
+<div 
+  class="modal" 
+  data-modal="one">
+  <button class="modal__close">&times;</button>
+  <h1 class="font-weight-bold">
+    Modal One 
+  </h1>
+</div>
+
+<div 
+  class="modal" 
+  data-modal="two">
+  <button class="modal__close">&times;</button>
+  <h1 class="font-weight-bold">
+    Modal Two 
+  </h1>
+</div>
+
+<script>
+const modalTriggers = document.querySelectorAll('.modal__trigger')
+const modalCloseTrigger = document.querySelector('.modal__close')
+const bodyBlackout = document.querySelector('.body-blackout')
+
+modalTriggers.forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const { popupTrigger } = trigger.dataset
+    const popupModal = document.querySelector(`[data-modal="${popupTrigger}"]`)
+//show modal and shadow
+    popupModal.classList.add('is--visible')
+    bodyBlackout.classList.add('is-blacked-out')
+//show close button  
+    popupModal.querySelector('.modal__close').addEventListener('click', () => {
+       popupModal.classList.remove('is--visible')
+       bodyBlackout.classList.remove('is-blacked-out')
+    })
+    
+    //close when clicked on shadow
+    bodyBlackout.addEventListener('click', () => {
+      popupModal.classList.remove('is--visible')
+      bodyBlackout.classList.remove('is-blacked-out')
+    })
+  })
+})
+
+</script>
+
+</body>
+</html>
