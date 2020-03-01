@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>geoloc</title>
+</head>
+<body>
+ <p class="info"></p>   
+
+<!-- Sources:
+     https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API/Using_the_Geolocation_API -->
+
+
+<script>
+let info = document.querySelector(".info");
+const antwerpLat = 51.218356; //centraal station
+const antwerpLon = 4.4185626; //centraal station
+const minuteLat =  0.0185 // km 
+
+// powierzchnia kwadratu na 5km dookola dworca w antwerpii; moze lepiej zmienic w promien?
+
+//One second of latitude =   30.72 m
+const minuteLon =   0.0142 // km
+// One second of longitude =  23.72 m
+let fromLat = antwerpLat-minuteLat*2;
+let toLat = antwerpLat+minuteLat*2;
+let fromLot = antwerpLon - minuteLat*2;
+let toLot = antwerpLon + minuteLat*2;
+
+console.log(fromLat);
+console.log(toLat);
+console.log(fromLot);
+console.log(toLot);
+/* 
+{{Coor title dms|51|13|17|N|4|23|49.99|E}}
+| lat_deg = 51
+| lat_min = 13
+| lat_sec = 17
+| lat_dir = N
+| lon_deg = 4
+| lon_min = 23
+| lon_sec = 49.99
+| lon_dir = E */
+
+
+
+if ("geolocation" in navigator) {
+  /* geolocation is available */
+  console.log("ok");
+  //info.innerHTML = "Geolocation is supported by this browser.";
+
+  function success(pos) {
+    let crd = pos.coords;
+    console.log('Your current position is:');
+    let lat = crd.latitude;
+    let lon = crd.longitude;
+
+
+
+  console.log(`Latitude : ` + lat);
+  console.log(`Longitude: ` + lon);
+  check(lat, lon);
+}
+  
+  navigator.geolocation.getCurrentPosition(success);
+
+function check(lat, lon) {
+    if (lat>fromLat && lat < toLat && lon >fromLot && lon<toLot) {
+console.log("position ok");
+} else {
+      console.log('position failure');
+  }
+}
+  
+} else {
+  /* geolocation IS NOT available */
+  info.innerHTML = "Geolocation is not supported by this browser.";
+}
+
+
+
+</script>
+
+
+</body>
+</html>
